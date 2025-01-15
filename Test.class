@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("Введите выражение: ");
+            String input = scanner.nextLine();
+            if (input.equals("exit")) {
+                break;
+            }
+            try {
+                String[] parts = input.split(" ");
+                int num1 = Integer.parseInt(parts[0]);
+                char operation = parts[1].charAt(0);
+                int num2 = Integer.parseInt(parts[2]);
+
+                if ((num1 < 1 || num1 > 10) || (num2 < 1 || num2 > 10)) {
+                    throw new Exception();
+                } else if (parts.length != 3) { // Проверка на то, что в строке только два числа и один оператор
+                    throw new Exception();
+                }
+
+                System.out.println("Результат: " + calc(input));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
+        }
+        scanner.close();
+    }
+
+    private static String calc(String input) {
+        String[] parts = input.split(" ");
+        int num1 = Integer.parseInt(parts[0]);
+        char operation = parts[1].charAt(0);
+        int num2 = Integer.parseInt(parts[2]);
+
+        switch (operation) {
+            case '+':
+                return String.valueOf(num1 + num2);
+            case '-':
+                return String.valueOf(num1 - num2);
+            case '*':
+                return String.valueOf(num1 * num2);
+            case '/':
+                if (num2 != 0) {
+                    return String.valueOf((int) (num1 / num2));
+                } else {
+                    System.out.println("Ошибка: деление на ноль");
+                    return null;
+                }
+            default:
+                System.out.println("Неизвестная операция");
+                return null;
+        }
+    }
+}
